@@ -1,11 +1,126 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tailwind CSS + Daisy UI -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Geist", sans-serif;
+      }
+    </style>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <title>Homepage</title>
-</head>
-<body>
-    <h1>Homepage</h1>
-</body>
+  </head>
+  <body class="p-5">
+    <!-- NavBar Section -->
+    <section>
+      <div
+        class="navbar bg-base-100 shadow-sm flex flex-col md:flex-row gap-2 items-center justify-center md:justify-between"
+      >
+        <!-- Navbar Start -->
+        <div class="flex-1 flex gap-2">
+          <img
+            class="w-[36px] h-[35px]"
+            src="./assets/github-logo.png"
+            alt=""
+          />
+          <a class="btn btn-ghost text-xl">GitHub Issues Tracker</a>
+        </div>
+        <div class="flex gap-2">
+          <input
+            type="text"
+            placeholder="Search issues..."
+            class="input input-bordered w-full md:w-auto"
+          />
+
+          <!-- Navbar button -->
+          <button class="btn btn-outline btn-primary">
+            <i class="fa-solid fa-plus"></i> New Issue
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Head Toggle Buttons -->
+    <section
+      class="max-w-[1110px] p-[24px] rounded-lg flex gap-5 mt-4 shadow-lg mx-auto items-center justify-center md:justify-start"
+    >
+      <button class="btn btn-outline btn-primary">All</button>
+      <button onclick="loadActive()" class="btn btn-outline btn-primary">Open</button>
+      <button class="btn btn-outline btn-primary">Closed</button>
+    </section>
+
+    <!-- Post Section -->
+    <section
+      class="max-w-[1110px] mx-auto p-[24px] shadow-2xl rounded-lg mt-4"
+    >
+      <!-- Post Heading -->
+      <div class="flex flex-col md:flex-row gap-5 justify-between items-center">
+        <!-- left side -->
+        <div class="flex gap-2 items-center justify-center">
+          <img src="./assets/Aperture.png" alt="Aperture" />
+          <!-- left Text -->
+          <div>
+            <h1 class="text-[1.25rem] font-semibold"><span id="post-count">50</span> Issues</h1>
+            <p>Track and manage your project issues</p>
+          </div>
+        </div>
+        <!-- Right Side -->
+        <div class="flex gap-4">
+          <!-- open -->
+          <div>
+            <h1>
+              <i class="fa-solid fa-circle" style="color: rgb(14, 202, 0)"></i>
+              Open
+            </h1>
+          </div>
+          <!-- Closed -->
+          <div>
+            <h1>
+              <i
+                class="fa-solid fa-circle"
+                style="color: rgb(168, 85, 247)"
+              ></i>
+              Closed
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- post Container -->
+       <section id="post-container" class="bg-[#FBFBFB] grid grid-cols-1 md:grid-cols-3 gap-4">
+
+            
+       </section>
+    </section>
+
+
+    <!-- Scripts -->
+     <script src="./scripts/hompage.js"></script>
+  </body>
 </html>
