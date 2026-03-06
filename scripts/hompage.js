@@ -10,11 +10,25 @@ const priorityLowBg = "bg-gray-200";
 const priorityLowText = "text-[gray]";
 const priorityMediumBg = "bg-amber-200";
 const priorityMediumText = "text-amber-600";
-const postCount = document.getElementById('post-count');
+const postCount = document.getElementById("post-count");
 let openList = [];
+let closedList =[];
 
+const finalCount = (id) => {
+  if (id === "open") {
+    postCount.textContent = openList.length;
+    return;
+  }
+  if(id === "closed"){
+    postCount.textContent = closedList.length;
+    return;
+  }
+  if(id === "all"){
+    postCount.textContent = postContainer.children.length;
+  }
+};
 // Loading All Post
-const loadPost = async () => {
+const loadPost = async (id) => {
   // Fetching The Data
   const response = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
@@ -22,12 +36,13 @@ const loadPost = async () => {
   const data = await response.json();
 
   // Passing the dataObject to function
-  displayAllPost(data);
+  displayAllPost(data.data, id);
 };
 // Displaying ALl posts
-const displayAllPost = (data) => {
+const displayAllPost = (data, id) => {
   // Taking the array out of the passed object
-  const posts = data.data;
+  postContainer.innerHTML = "";
+  const posts = data;
   /**
    *{
 "id": 1,
@@ -57,8 +72,8 @@ const displayAllPost = (data) => {
                         <h2 class="${checkPriorityClasstext(post.priority)} font-medium">${checkPriority(post.priority)}</h2>
                     </div>
                 </div>
-                <h1 class="font-semibold">${post.title}</h1>
-                <p class="text-[#64748B]">${post.description}</p>
+                <h1 class="font-semibold text-[14px] mb-[8px]">${post.title}</h1>
+                <p class="text-[#64748B] text-[12px]">${post.description}</p>
                 <div class="border-t border-t-gray-400 py-3 mt-3">
                     <p class="text-[#64748B] text-[12px]">#${post.id} by ${post.author}</p>
                     <p class="text-[#64748B] text-[12px]">${post.createdAt}</p>
@@ -67,11 +82,11 @@ const displayAllPost = (data) => {
     // Appending The postCard to the post container
     postContainer.append(postCard);
   });
+  finalCount(id);
 };
 // priority Checker
 const checkPriority = (priority) => {
-
-    if (priority === "high") {
+  if (priority === "high") {
     return "High";
   } else if (priority === "medium") {
     return "Medium";
@@ -81,7 +96,7 @@ const checkPriority = (priority) => {
 };
 // priority Class checker
 const checkPriorityClassBg = (priority) => {
-    if (priority === "high") {
+  if (priority === "high") {
     return priorityHighBg;
   } else if (priority === "medium") {
     return priorityMediumBg;
@@ -91,7 +106,7 @@ const checkPriorityClassBg = (priority) => {
 };
 // Priority Text Checker
 const checkPriorityClasstext = (priority) => {
-    if (priority === "high") {
+  if (priority === "high") {
     return priorityHighText;
   } else if (priority === "medium") {
     return priorityMediumText;
@@ -99,19 +114,44 @@ const checkPriorityClasstext = (priority) => {
     return priorityLowText;
   }
 };
-
-const loadActive= async() =>{
-    // Fetching The Data
+// Loading Open Posts
+const loadOpen = async (id) => {
+  // Fetching The Data
   const response = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   );
   const data = await response.json();
 
   // Passing the dataObject to function
-  displayActivePosts(data);
+  displayOpenPosts(data.data, id);
 };
-const displayActivePosts = () => {
+// displaying Open Posts
+const displayOpenPosts = (datas, id) => {
+  postContainer.innerHTML = "";
+  let activeArr = datas.filter((data) => data.status === "open");
+  openList = activeArr;
+  finalCount(id);
 
+  displayAllPost(openList);
+};
+// Loading closed posts
+const loadClosed = async (id) => {
+  // Fetching The Data
+  const response = await fetch(
+    "https://phi-lab-server.vercel.app/api/v1/lab/issues",
+  );
+  const data = await response.json();
+
+  // Passing the dataObject to function
+  displayClosedPosts(data.data, id);
+};
+const displayClosedPosts = (datas, id) => {
+  postContainer.innerHTML = "";
+  let closedArr = datas.filter((data) => data.status === "closed");
+  closedList = closedArr;
+  finalCount(id);
+
+  displayAllPost(closedList);
 };
 
 loadPost();

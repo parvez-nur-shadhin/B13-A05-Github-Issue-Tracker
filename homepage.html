@@ -68,11 +68,11 @@
 
     <!-- Head Toggle Buttons -->
     <section
-      class="max-w-[1110px] p-[24px] rounded-lg flex gap-5 mt-4 shadow-lg mx-auto items-center justify-center md:justify-start"
+      class="max-w-[1110px] p-[24px] rounded-lg flex gap-5 mt-4 shadow-lg mx-auto items-center sticky justify-center md:justify-start z-1"
     >
-      <button class="btn btn-outline btn-primary">All</button>
-      <button onclick="loadActive()" class="btn btn-outline btn-primary">Open</button>
-      <button class="btn btn-outline btn-primary">Closed</button>
+      <button onclick="loadPost('all')" class="btn btn-outline btn-primary">All</button>
+      <button onclick="loadOpen('open')" class="btn btn-outline btn-primary">Open</button>
+      <button onclick="loadClosed('closed')" class="btn btn-outline btn-primary">Closed</button>
     </section>
 
     <!-- Post Section -->
@@ -113,7 +113,7 @@
       </div>
 
       <!-- post Container -->
-       <section id="post-container" class="bg-[#FBFBFB] grid grid-cols-1 md:grid-cols-3 gap-4">
+       <section id="post-container" class="bg-[#FBFBFB] grid grid-cols-1 md:grid-cols-4 gap-4">
 
             
        </section>
