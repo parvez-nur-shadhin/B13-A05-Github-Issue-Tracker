@@ -11,29 +11,60 @@ const priorityLowText = "text-[gray]";
 const priorityMediumBg = "bg-amber-200";
 const priorityMediumText = "text-amber-600";
 const postCount = document.getElementById("post-count");
+const spinnerContainer = document.getElementById("spinner-container");
 let openList = [];
-let closedList =[];
+let closedList = [];
 
+// Button Toggling
+const buttonActive = (id) => {
+  const allButtons = document.querySelectorAll("#all, #open, #closed");
+  allButtons.forEach((btn) => {
+    btn.classList.remove("btn-primary");
+    btn.classList.add("btn-outline");
+  });
+  const passedBtn = document.getElementById(id);
+  passedBtn.classList.remove("btn-outline");
+  passedBtn.classList.add("btn-primary");
+};
+// Counting Length
 const finalCount = (id) => {
   if (id === "open") {
     postCount.textContent = openList.length;
     return;
   }
-  if(id === "closed"){
+  if (id === "closed") {
     postCount.textContent = closedList.length;
     return;
   }
-  if(id === "all"){
+  if (id === "all") {
     postCount.textContent = postContainer.children.length;
   }
 };
+// All post button click
+document.getElementById("all").addEventListener("click", () => {
+  buttonActive("all");
+});
+
+// Spinner
+const showSpinner = () => {
+  spinnerContainer.classList.remove("hidden");
+  postContainer.classList.add('hidden');
+};
+const hideSpinner = () => {
+  spinnerContainer.classList.add("hidden");
+  postContainer.classList.remove('hidden');
+};
+
 // Loading All Post
 const loadPost = async (id) => {
+    showSpinner();
   // Fetching The Data
   const response = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   );
   const data = await response.json();
+
+  hideSpinner();
 
   // Passing the dataObject to function
   displayAllPost(data.data, id);
@@ -116,12 +147,15 @@ const checkPriorityClasstext = (priority) => {
 };
 // Loading Open Posts
 const loadOpen = async (id) => {
+  buttonActive(id);
+  showSpinner();
   // Fetching The Data
   const response = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   );
   const data = await response.json();
 
+  hideSpinner();
   // Passing the dataObject to function
   displayOpenPosts(data.data, id);
 };
@@ -136,11 +170,15 @@ const displayOpenPosts = (datas, id) => {
 };
 // Loading closed posts
 const loadClosed = async (id) => {
+  buttonActive(id);
+  showSpinner();
   // Fetching The Data
   const response = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
   );
   const data = await response.json();
+
+  hideSpinner();
 
   // Passing the dataObject to function
   displayClosedPosts(data.data, id);
