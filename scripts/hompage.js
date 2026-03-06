@@ -1,3 +1,4 @@
+// Pulling The Elements and Creating Essential Variables
 const postContainer = document.getElementById("post-container");
 const srcActive = "./assets/Open-Status.png";
 const srcClosed = "./assets/Closed-Status.png";
@@ -90,17 +91,17 @@ const displayAllPost = (data, id) => {
 "createdAt": "2024-01-15T10:30:00Z",
 "updatedAt": "2024-01-15T10:30:00Z"
 }
-   */
+*/
 
   posts.forEach((post) => {
     const postCard = document.createElement("div");
     postCard.className = `p-4 bg-white rounded-sm shadow-xl border-t-4 ${post.status === "open" ? borderGreen : borderViolet}`;
     postCard.innerHTML = `
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center mb-[12px]">
                     <img class="h-[24px] w-[24px]" src="${post.status === "open" ? srcActive : srcClosed}" alt="">
                     <!-- Priority Container -->
-                    <div class="${checkPriorityClassBg(post.priority)} px-[26px] py-[6px] rounded-full">
-                        <h2 class="${checkPriorityClasstext(post.priority)} font-medium">${checkPriority(post.priority)}</h2>
+                    <div class="${checkPriorityClassBg(post.priority)} px-[20px] py-[3px] rounded-full">
+                        <h2 class="${checkPriorityClasstext(post.priority)} text-[12px] font-medium">${checkPriority(post.priority)}</h2>
                     </div>
                 </div>
                 <h1 class="font-semibold text-[14px] mb-[8px]">${post.title}</h1>
