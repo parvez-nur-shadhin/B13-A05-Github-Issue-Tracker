@@ -21,6 +21,7 @@ const modalDate = document.getElementById("modal-date");
 const modalDescription = document.getElementById("modal-description");
 const modalAssignee = document.getElementById("modal-assignee");
 const modalPriority = document.getElementById("modal-priority");
+const modalLabelContainer = document.getElementById('modal-label-container');
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
 
@@ -68,27 +69,11 @@ const openingModal = async (id) => {
     ? dataObject.assignee
     : "No Assignee Found";
   modalPriority.textContent = dataObject.priority;
+  modalLabelContainer.innerHTML = `${createLabels(dataObject.labels)}`;
+  modalStatus.className = `text-[12px] font-medium ${dataObject.status === 'open' ? 'bg-green-600' : 'bg-[#a856f7]'} text-white px-2 rounded-full`
 
   issueDetailsModal.showModal();
 };
-/**
- * {
-    "id": 1,
-    "title": "Fix navigation menu on mobile devices",
-    "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-    "status": "open",
-    "labels": [
-        "bug",
-        "help wanted"
-    ],
-    "priority": "high",
-    "author": "john_doe",
-    "assignee": "jane_smith",
-    "createdAt": "2024-01-15T10:30:00Z",
-    "updatedAt": "2024-01-15T10:30:00Z"
-}
- */
-
 // Button Toggling
 const buttonActive = (id) => {
   const allButtons = document.querySelectorAll("#all, #open, #closed");
@@ -155,25 +140,7 @@ const displayAllPost = (data, id) => {
         <h1 class="text-2xl">Nothing To Show!!!</h1>
     </div>
         `;
-  }
-
-  /**
-   *{
-"id": 1,
-"title": "Fix navigation menu on mobile devices",
-"description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-"status": "open",
-"labels": [
-"bug",
-"help wanted"
-],
-"priority": "high",
-"author": "john_doe",
-"assignee": "jane_smith",
-"createdAt": "2024-01-15T10:30:00Z",
-"updatedAt": "2024-01-15T10:30:00Z"
-}
-*/
+  };
 
   posts.forEach((post) => {
     const postCard = document.createElement("div");
