@@ -13,7 +13,7 @@ const priorityMediumBg = "bg-amber-200";
 const priorityMediumText = "text-amber-600";
 const postCount = document.getElementById("post-count");
 const spinnerContainer = document.getElementById("spinner-container");
-const issueDetailsModal = document.getElementById('issue-details-modal');
+const issueDetailsModal = document.getElementById("issue-details-modal");
 const modalTitle = document.getElementById("modal-title");
 const modalStatus = document.getElementById("modal-status");
 const modalName = document.getElementById("modal-name");
@@ -21,14 +21,14 @@ const modalDate = document.getElementById("modal-date");
 const modalDescription = document.getElementById("modal-description");
 const modalAssignee = document.getElementById("modal-assignee");
 const modalPriority = document.getElementById("modal-priority");
-const searchInput = document.getElementById('search-input');
-const searchBtn = document.getElementById('search-btn');
+const searchInput = document.getElementById("search-input");
+const searchBtn = document.getElementById("search-btn");
 
 // Arrays
 let openList = [];
 let closedList = [];
 
-//  Modal 
+//  Modal
 const openingModal = async (id) => {
   const response = await fetch(
     `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`,
@@ -41,7 +41,9 @@ const openingModal = async (id) => {
   modalName.textContent = dataObject.author;
   modalDate.textContent = dataObject.createdAt;
   modalDescription.textContent = dataObject.description;
-  modalAssignee.textContent = dataObject.assignee ? dataObject.assignee : "No Assignee Found";
+  modalAssignee.textContent = dataObject.assignee
+    ? dataObject.assignee
+    : "No Assignee Found";
   modalPriority.textContent = dataObject.priority;
 
   issueDetailsModal.showModal();
@@ -123,6 +125,15 @@ const displayAllPost = (data, id) => {
   // Taking the array out of the passed object
   postContainer.innerHTML = "";
   const posts = data;
+
+  if (posts.length === 0) {
+    postContainer.innerHTML = `
+    <div class="text-center p-10 col-span-1 md:col-span-3 lg:col-span-4 mx-auto">
+        <h1 class="text-2xl">Nothing To Show!!!</h1>
+    </div>
+        `;
+  }
+
   /**
    *{
 "id": 1,
@@ -241,14 +252,15 @@ const displayClosedPosts = (datas, id) => {
   displayAllPost(closedList);
 };
 
-document.getElementById('search-btn').addEventListener('click', async() => {
-    const inputValue = searchInput.value.trim().toLowerCase();
-    
-    const response = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${inputValue}`);
-    const data = await response.json();
+document.getElementById("search-btn").addEventListener("click", async () => {
+  const inputValue = searchInput.value.trim().toLowerCase();
 
-    displayAllPost(data.data);
+  const response = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${inputValue}`,
+  );
+  const data = await response.json();
 
+  displayAllPost(data.data);
 });
 
 loadPost();
