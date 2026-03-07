@@ -24,6 +24,7 @@ const modalPriority = document.getElementById("modal-priority");
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
 
+// Arrays
 let openList = [];
 let closedList = [];
 
@@ -240,9 +241,14 @@ const displayClosedPosts = (datas, id) => {
   displayAllPost(closedList);
 };
 
-document.getElementById('search-btn').addEventListener('click', () => {
+document.getElementById('search-btn').addEventListener('click', async() => {
     const inputValue = searchInput.value.trim().toLowerCase();
-    console.log(inputValue);
+    
+    const response = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${inputValue}`);
+    const data = await response.json();
+
+    displayAllPost(data.data);
+
 });
 
 loadPost();
