@@ -53,13 +53,14 @@
         </div>
         <div class="flex gap-2">
           <input
+            id="search-input"
             type="text"
             placeholder="Search issues..."
             class="input input-bordered w-full md:w-auto"
           />
 
           <!-- Navbar button -->
-          <button class="btn btn-outline btn-primary">
+          <button id="search-btn" class="btn btn-outline btn-primary">
             <i class="fa-solid fa-plus"></i> New Issue
           </button>
         </div>
@@ -137,6 +138,63 @@
       class="max-w-[1110px] mx-auto text-center pt-20 pb-20 hidden"
     >
       <span class="loading loading-spinner loading-xl"></span>
+    </section>
+
+    <!-- Modal -->
+    <section>
+      <!-- Open the modal using ID.showModal() method -->
+      <dialog
+        id="issue-details-modal"
+        class="modal modal-bottom sm:modal-middle"
+      >
+        <div class="modal-box p-[32px] space-y-5">
+          <div>
+            <h1 id="modal-title" class="text-[1.5rem] font-bold">
+              Fix broken image uploads
+            </h1>
+            <div class="flex gap-3 items-center">
+              <h1
+                id="modal-status"
+                class="text-[12px] font-medium bg-green-600 text-white px-2 rounded-full"
+              >
+                opened
+              </h1>
+              <p class="text-[0.75rem] text-[#64748B]">
+                Opened by <span id="modal-name">Fahim Ahmed</span>
+              </p>
+              <p id="modal-date" class="text-[0.755rem] text-[#64748B]">
+                22/02/2026
+              </p>
+            </div>
+          </div>
+          <div>
+            <p id="modal-description" class="text-[#64748B]">
+              The navigation menu doesn't collapse properly on mobile devices.
+              Need to fix the responsive behavior.
+            </p>
+          </div>
+          <div
+            class="bg-[#F8FAFC] flex flex-1 justify-between items-center rounded-sm py-3 px-10"
+          >
+            <div>
+              <p class="text-[#64748B]">Assignee:</p>
+              <h2 id="modal-assignee" class="font-semibold">Fahim Ahmed</h2>
+            </div>
+            <div>
+              <p class="text-[#64748B]">Priority:</p>
+              <div>
+                <h1 id="modal-priority">High</h1>
+              </div>
+            </div>
+          </div>
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn btn-primary">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </section>
 
     <!-- Scripts -->

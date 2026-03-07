@@ -13,8 +13,55 @@ const priorityMediumBg = "bg-amber-200";
 const priorityMediumText = "text-amber-600";
 const postCount = document.getElementById("post-count");
 const spinnerContainer = document.getElementById("spinner-container");
+const issueDetailsModal = document.getElementById('issue-details-modal');
+const modalTitle = document.getElementById("modal-title");
+const modalStatus = document.getElementById("modal-status");
+const modalName = document.getElementById("modal-name");
+const modalDate = document.getElementById("modal-date");
+const modalDescription = document.getElementById("modal-description");
+const modalAssignee = document.getElementById("modal-assignee");
+const modalPriority = document.getElementById("modal-priority");
+const searchInput = document.getElementById('search-input');
+const searchBtn = document.getElementById('search-btn');
+
 let openList = [];
 let closedList = [];
+
+//  Modal 
+const openingModal = async (id) => {
+  const response = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`,
+  );
+  const data = await response.json();
+
+  const dataObject = data.data;
+  modalTitle.textContent = dataObject.title;
+  modalStatus.textContent = dataObject.status;
+  modalName.textContent = dataObject.author;
+  modalDate.textContent = dataObject.createdAt;
+  modalDescription.textContent = dataObject.description;
+  modalAssignee.textContent = dataObject.assignee ? dataObject.assignee : "No Assignee Found";
+  modalPriority.textContent = dataObject.priority;
+
+  issueDetailsModal.showModal();
+};
+/**
+ * {
+    "id": 1,
+    "title": "Fix navigation menu on mobile devices",
+    "description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
+    "status": "open",
+    "labels": [
+        "bug",
+        "help wanted"
+    ],
+    "priority": "high",
+    "author": "john_doe",
+    "assignee": "jane_smith",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "updatedAt": "2024-01-15T10:30:00Z"
+}
+ */
 
 // Button Toggling
 const buttonActive = (id) => {
@@ -49,16 +96,16 @@ document.getElementById("all").addEventListener("click", () => {
 // Spinner
 const showSpinner = () => {
   spinnerContainer.classList.remove("hidden");
-  postContainer.classList.add('hidden');
+  postContainer.classList.add("hidden");
 };
 const hideSpinner = () => {
   spinnerContainer.classList.add("hidden");
-  postContainer.classList.remove('hidden');
+  postContainer.classList.remove("hidden");
 };
 
 // Loading All Post
 const loadPost = async (id) => {
-    showSpinner();
+  showSpinner();
   // Fetching The Data
   const response = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
@@ -104,7 +151,7 @@ const displayAllPost = (data, id) => {
                         <h2 class="${checkPriorityClasstext(post.priority)} text-[12px] font-medium">${checkPriority(post.priority)}</h2>
                     </div>
                 </div>
-                <h1 class="font-semibold text-[14px] mb-[8px]">${post.title}</h1>
+                <h1 onclick="openingModal('${post.id}')" class="font-semibold text-[14px] mb-[8px] cursor-pointer">${post.title}</h1>
                 <p class="text-[#64748B] text-[12px]">${post.description}</p>
                 <div class="border-t border-t-gray-400 py-3 mt-3">
                     <p class="text-[#64748B] text-[12px]">#${post.id} by ${post.author}</p>
@@ -192,5 +239,10 @@ const displayClosedPosts = (datas, id) => {
 
   displayAllPost(closedList);
 };
+
+document.getElementById('search-btn').addEventListener('click', () => {
+    const inputValue = searchInput.value.trim().toLowerCase();
+    console.log(inputValue);
+});
 
 loadPost();
