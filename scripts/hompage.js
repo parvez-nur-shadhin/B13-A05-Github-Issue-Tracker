@@ -21,7 +21,7 @@ const modalDate = document.getElementById("modal-date");
 const modalDescription = document.getElementById("modal-description");
 const modalAssignee = document.getElementById("modal-assignee");
 const modalPriority = document.getElementById("modal-priority");
-const modalLabelContainer = document.getElementById('modal-label-container');
+const modalLabelContainer = document.getElementById("modal-label-container");
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
 
@@ -39,13 +39,13 @@ const createLabels = (labels) => {
       return `<button class="btn btn-xs btn-soft btn-success"><i class="fa-solid fa-wand-magic" style="color: rgb(0, 195, 51);"></i> Enhancement</button>`;
     }
     if (label === "help wanted") {
-        return `<button class="btn btn-xs btn-soft btn-warning"><i class="fa-solid fa-life-ring" style="color: rgb(255, 212, 59);"></i> Help Wanted</button>`;
+      return `<button class="btn btn-xs btn-soft btn-warning"><i class="fa-solid fa-life-ring" style="color: rgb(255, 212, 59);"></i> Help Wanted</button>`;
     }
     if (label === "documentation") {
-        return `<button class="btn btn-xs btn-soft btn-info"><i class="fa-brands fa-readme" style="color: rgb(7, 146, 255);"></i> Documentation</button>`
+      return `<button class="btn btn-xs btn-soft btn-info"><i class="fa-brands fa-readme" style="color: rgb(7, 146, 255);"></i> Documentation</button>`;
     }
-    if (label === "good first issue"){
-        return `<button class="btn btn-xs btn-soft btn-secondary"><i class="fa-solid fa-circle-exclamation" style="color: #e7c297;"></i> Good First Issue</button>`
+    if (label === "good first issue") {
+      return `<button class="btn btn-xs btn-soft btn-secondary"><i class="fa-solid fa-circle-exclamation" style="color: #e7c297;"></i> Good First Issue</button>`;
     }
   });
 
@@ -70,7 +70,7 @@ const openingModal = async (id) => {
     : "No Assignee Found";
   modalPriority.textContent = dataObject.priority;
   modalLabelContainer.innerHTML = `${createLabels(dataObject.labels)}`;
-  modalStatus.className = `text-[12px] font-medium ${dataObject.status === 'open' ? 'bg-green-600' : 'bg-[#a856f7]'} text-white px-2 rounded-full`
+  modalStatus.className = `text-[12px] font-medium ${dataObject.status === "open" ? "bg-green-600" : "bg-[#a856f7]"} text-white px-2 rounded-full`;
 
   issueDetailsModal.showModal();
 };
@@ -87,6 +87,7 @@ const buttonActive = (id) => {
 };
 // Counting Length
 const finalCount = (id) => {
+
   if (id === "open") {
     postCount.textContent = openList.length;
     return;
@@ -96,6 +97,9 @@ const finalCount = (id) => {
     return;
   }
   if (id === "all") {
+    postCount.textContent = postContainer.children.length;
+  }
+  if (id === "search-btn") {
     postCount.textContent = postContainer.children.length;
   }
 };
@@ -140,7 +144,8 @@ const displayAllPost = (data, id) => {
         <h1 class="text-2xl">Nothing To Show!!!</h1>
     </div>
         `;
-  };
+    return true;
+  }
 
   posts.forEach((post) => {
     const postCard = document.createElement("div");
@@ -166,7 +171,9 @@ const displayAllPost = (data, id) => {
     // Appending The postCard to the post container
     postContainer.append(postCard);
   });
-  finalCount(id);
+  if (id !== "search-btn") {
+    finalCount(id);
+  }
 };
 // priority Checker
 const checkPriority = (priority) => {
@@ -252,8 +259,17 @@ document.getElementById("search-btn").addEventListener("click", async () => {
     `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${inputValue}`,
   );
   const data = await response.json();
+  const id = "search-btn";
 
-  displayAllPost(data.data);
+  displayAllPost(data.data, id);
+
+  let isEmpty  = displayAllPost(data.data, id);
+  if(isEmpty) {
+    postCount.textContent = 0;
+  }
+  else {
+    finalCount(id);
+  }
 });
 
 loadPost();
