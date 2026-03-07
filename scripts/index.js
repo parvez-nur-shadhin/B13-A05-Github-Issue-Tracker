@@ -12,8 +12,8 @@ loginButton.addEventListener('click', () => {
         if(passwordValue.length === 8){
 
             if(passwordValue === 'admin123'){
-                alert("Login Successful");
                 window.location.assign("./homepage.html");
+                alert("Login Successful");
             }
             else {
                 alert("Invalid Password");
