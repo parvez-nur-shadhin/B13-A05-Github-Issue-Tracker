@@ -28,6 +28,29 @@ const searchBtn = document.getElementById("search-btn");
 let openList = [];
 let closedList = [];
 
+// Creating Labels
+const createLabels = (labels) => {
+  const elements = labels.map((label) => {
+    if (label === "bug") {
+      return `<button class="btn btn-xs btn-soft btn-error"><i class="fa-solid fa-bug" style="color: rgb(255, 0, 0);"></i> Bug</button>`;
+    }
+    if (label === "enhancement") {
+      return `<button class="btn btn-xs btn-soft btn-success"><i class="fa-solid fa-wand-magic" style="color: rgb(0, 195, 51);"></i> Enhancement</button>`;
+    }
+    if (label === "help wanted") {
+        return `<button class="btn btn-xs btn-soft btn-warning"><i class="fa-solid fa-life-ring" style="color: rgb(255, 212, 59);"></i> Help Wanted</button>`;
+    }
+    if (label === "documentation") {
+        return `<button class="btn btn-xs btn-soft btn-info"><i class="fa-brands fa-readme" style="color: rgb(7, 146, 255);"></i> Documentation</button>`
+    }
+    if (label === "good first issue"){
+        return `<button class="btn btn-xs btn-soft btn-secondary"><i class="fa-solid fa-circle-exclamation" style="color: #e7c297;"></i> Good First Issue</button>`
+    }
+  });
+
+  return elements.join(" ");
+};
+
 //  Modal
 const openingModal = async (id) => {
   const response = await fetch(
@@ -165,6 +188,9 @@ const displayAllPost = (data, id) => {
                 </div>
                 <h1 onclick="openingModal('${post.id}')" class="font-semibold text-[14px] mb-[8px] cursor-pointer">${post.title}</h1>
                 <p class="text-[#64748B] text-[12px]">${post.description}</p>
+                <div class="flex flex-1 justify-start items-center flex-wrap pt-3 pb-3 gap-3">
+                    ${createLabels(post.labels)}
+                </div>
                 <div class="border-t border-t-gray-400 py-3 mt-3">
                     <p class="text-[#64748B] text-[12px]">#${post.id} by ${post.author}</p>
                     <p class="text-[#64748B] text-[12px]">${post.createdAt}</p>
